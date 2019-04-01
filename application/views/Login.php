@@ -24,6 +24,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href='//fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
 <link href='//fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
 <!--static chart-->
+<!-- Sweet alert -->
+<link href="<?php echo base_url();?>Assets/sweetalert2-8.8.0/package/dist/sweetalert2.min.css" rel="stylesheet"> 
 </head>
 <body>	
 <div id="page-wrapper">
@@ -54,10 +56,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 
 <!--scrolling js-->
-		<script src="<?php echo base_url();?>Assets/js/jquery.nicescroll.js"></script>
-		<script src="<?php echo base_url();?>Assets/js/scripts.js"></script>
-		<!--//scrolling js-->
+<script src="<?php echo base_url();?>Assets/js/jquery.nicescroll.js"></script>
+<script src="<?php echo base_url();?>Assets/js/scripts.js"></script>		
+<!--//scrolling js-->
 <script src="<?php echo base_url();?>Assets/js/bootstrap.js"> </script>
+<!-- Sweet alert -->
+<script src="<?php echo base_url();?>Assets/sweetalert2-8.8.0/package/dist/sweetalert2.all.min.js"> </script>
 <!-- mother grid end here-->
 </body>
 </html>
@@ -68,13 +72,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	        beforeSend:function(jqXHR, Obj){
 	            var value = "; " + document.cookie;
 	            var parts = value.split("; csrf_cookie_token=");
-	            if(parts.length == 2)   
+	            if(parts.length == 2)
 	            Obj.data += '&csrf_token='+parts.pop().split(";").shift();
 	        }
 	    });
 		// Reset Form
 		$(document).ready(function () {
-			
+			// Swal.fire(
+			// 'Good job!',
+			// 'You clicked the button!',
+			// 'success'
+			// )
 			$('#user').text('');
 			$('#password').text('');
 			
@@ -87,12 +95,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         	var me = $(this);
         	$.ajax({
 				type: "post",
-		        url: "<?=base_url()?>Auth/Login/Validate",
+		        url: "<?=base_url()?>Auth/Login/Auth_Login",
 		        data: me.serialize(),
 		        dataType: "json",
 
 		        success: function (response) {
-		        	
+		        	if(response.success == true){
+						location.replace("<?=base_url()?>")
+					}
+					else{
+						if(response.message == 'L-01'){
+							// Swal.fire(
+			// 'Good job!',
+			// 'You clicked the button!',
+			// 'success'
+			// )
+						}
+					}
 		        }
         	});
 		});
