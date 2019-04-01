@@ -11,7 +11,7 @@
  Target Server Version : 50552
  File Encoding         : 65001
 
- Date: 30/03/2019 22:42:59
+ Date: 01/04/2019 22:53:24
 */
 
 SET NAMES utf8mb4;
@@ -134,12 +134,12 @@ CREATE TABLE `permission`  (
 -- Records of permission
 -- ----------------------------
 INSERT INTO `permission` VALUES (1, 'Master', NULL, NULL, '1');
-INSERT INTO `permission` VALUES (2, 'Anak', NULL, NULL, '2');
-INSERT INTO `permission` VALUES (3, 'Mentor', NULL, NULL, '2');
-INSERT INTO `permission` VALUES (4, 'Sponsor', NULL, NULL, '2');
-INSERT INTO `permission` VALUES (5, 'Kelas Usia', NULL, NULL, '2');
-INSERT INTO `permission` VALUES (6, 'LKPA', NULL, NULL, '1');
-INSERT INTO `permission` VALUES (7, 'Input LKPA', NULL, NULL, '2');
+INSERT INTO `permission` VALUES (2, 'Anak', NULL, NULL, '1.1');
+INSERT INTO `permission` VALUES (3, 'Mentor', NULL, NULL, '1.2');
+INSERT INTO `permission` VALUES (4, 'Sponsor', NULL, NULL, '1.3');
+INSERT INTO `permission` VALUES (5, 'Kelas Usia', NULL, NULL, '1.4');
+INSERT INTO `permission` VALUES (6, 'LKPA', NULL, NULL, '2');
+INSERT INTO `permission` VALUES (7, 'Input LKPA', NULL, NULL, '2.1');
 
 -- ----------------------------
 -- Table structure for permissionrole
@@ -209,6 +209,6 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (14, 'admin', 'admin', '77bbc04f7a12d8b3a2938b3e9da2d9be6a1f2d824ea50564d0540154fac29e26e90bfc55c8326e9750128877e4df271664f3fb3ae61086d0b9693805c386b45e81lbupPE14TMjKAd+Jd3ReHDGOWDFTjZ1dxCv3gbiaM=', 'mnl', NULL, 1);
+INSERT INTO `users` VALUES (14, 'admin', 'admin', 'a9bdd47d7321d4089b3b00561c9c621848bd6f6e2f745a53d54913d613789c23945b66de6ded1eb336a7d526f9349a9d964d6f6c3a40e2ac90b4b16c0121f7895Xg53McbkyQ/NmW60Sf4cu3wJsi/8cyZXxeXV7g6b04=', 'mnl', NULL, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
