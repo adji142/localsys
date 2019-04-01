@@ -9,7 +9,7 @@ class Login extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Auth/Login','Autentification');
+		$this->load->model('Auth/LoginMod','LoginMod');
 	}
 	function Index()
 	{
@@ -37,15 +37,16 @@ class Login extends CI_Controller
         $usr = $this->input->post('user');
 		$pwd =$this->input->post('password');
 		
-		$Validate_username = $this->Autentification->Validate_username($usr);
+		$Validate_username = $this->LoginMod->Validate_username($usr);
 
 		if($Validate_username->num_rows()>0){
 			$userid = $Validate_username->row()->id;
 			$pass_valid = $this->encryption->decrypt($Validate_username->row()->password);
-			
-			$get_Validation = $this->Autentification->Validate_Login($userid,$pwd);
-			if($get_Validation->num_rows()>0){
+			// var_dump($pass_valid);
+			// $get_Validation = $this->LoginMod->Validate_Login($userid,$this->encryption->encrypt($pwd));
+			if($pass_valid == $pwd){
 				$sess_data['userid']=$userid;
+				$this->session->set_userdata($sess_data);
 				$data['success'] = true;
 			}
 			else{
@@ -57,5 +58,11 @@ class Login extends CI_Controller
 			$data['message'] = 'L-02'; // Username not found
 		}
 		echo json_encode($data);
+	}
+	function logout()
+	{
+		delete_cookie('ci_session');
+        $this->session->sess_destroy();
+        redirect('Id');
 	}
 }

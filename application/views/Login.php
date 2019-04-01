@@ -1,3 +1,10 @@
+
+<?php
+	$user_id = $this->session->userdata('userid');
+	if($user_id != ''){
+		echo "<script>location.replace('".base_url()."Home');</script>";
+	}
+?>
 <!--Author: W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -101,15 +108,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		        success: function (response) {
 		        	if(response.success == true){
-						location.replace("<?=base_url()?>")
+						location.replace("<?=base_url()?>Home")
 					}
 					else{
 						if(response.message == 'L-01'){
-							// Swal.fire(
-			// 'Good job!',
-			// 'You clicked the button!',
-			// 'success'
-			// )
+							Swal.fire({
+							  type: 'error',
+							  title: 'Oops...',
+							  text: 'User dan password tidak sesuai dengan database!',
+							  // footer: '<a href>Why do I have this issue?</a>'
+							});
+							$('#user').text('');
+							$('#password').text('');
+							$('#btn_submit').text('Login');
+        					$('#btn_submit').attr('disabled',false);
+						}
+						else if(response.message == 'L-02'){
+							Swal.fire({
+							  type: 'error',
+							  title: 'Oops...',
+							  text: 'User tidak di temukan!',
+							  footer: '<a href>Why do I have this issue?</a>'
+							});
+							$('#user').text('');
+							$('#password').text('');
+							$('#btn_submit').text('Login');
+        					$('#btn_submit').attr('disabled',false);
+						}
+						else{
+							Swal.fire({
+							  type: 'error',
+							  title: 'Oops...',
+							  text: 'Undefine Error Contact your system administrator!',
+							  footer: '<a href>Why do I have this issue?</a>'
+							});
+							$('#user').text('');
+							$('#password').text('');
+							$('#btn_submit').text('Login');
+        					$('#btn_submit').attr('disabled',false);
 						}
 					}
 		        }
