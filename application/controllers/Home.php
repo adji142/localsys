@@ -16,4 +16,8 @@ class Home extends CI_Controller
 	{
 		$this->load->view('Index');
 	}
+	function ViewAnak()
+	{
+		$this->load->view('ViewMasterAnak');
+	}
 }

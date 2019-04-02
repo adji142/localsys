@@ -16,4 +16,15 @@ class GlobalVar extends CI_Model
 		$data = "select a.* from kelasusiauser a inner join akseskelasusia b on b.id = a.aksesid where a.userid = $userid";
 		return $this->db->query($data);
 	}
+	function GetSideBar($userid)
+	{
+		$data = "
+			select left(d.menusubmenu,1) menu,d.* from users a
+			inner join userrole b on a.id = b.userid
+			inner join permissionrole c on b.roleid = c.roleid
+			inner join permission d on c.permissionid = d.id
+			where a.id = $userid
+		";
+		return $this->db->query($data);
+	}
 }

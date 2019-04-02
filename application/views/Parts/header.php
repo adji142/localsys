@@ -37,6 +37,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <!-- font-awesome icons -->
 <link href="<?php echo base_url();?>Assets/css/font-awesome.css" rel="stylesheet"> 
 <!-- //font-awesome icons -->
+<!-- Datatables -->
+<link rel="stylesheet" href="<?php echo base_url();?>Assets/datatables.net-bs/css/dataTables.bootstrap.min.css">
  <!-- js-->
 <script src="<?php echo base_url();?>Assets/js/jquery-1.11.1.min.js"></script>
 <script src="<?php echo base_url();?>Assets/js/modernizr.custom.js"></script>
@@ -54,11 +56,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="<?php echo base_url();?>Assets/js/Chart.js"></script>
 <!-- //chart -->
 <!--Calender-->
+<!-- 
 <link rel="stylesheet" href="<?php echo base_url();?>Assets/css/clndr.css" type="text/css" />
 <script src="<?php echo base_url();?>Assets/js/underscore-min.js" type="text/javascript"></script>
 <script src= "<?php echo base_url();?>Assets/js/moment-2.2.1.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>Assets/js/clndr.js" type="text/javascript"></script>
-<script src="<?php echo base_url();?>Assets/js/site.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>Assets/js/site.js" type="text/javascript"></script> 
+-->
 <!--End Calender-->
 <!-- Metis Menu -->
 <script src="<?php echo base_url();?>Assets/js/metisMenu.min.js"></script>
@@ -69,22 +73,33 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <body class="cbp-spmenu-push">
 	<div class="main-content">
 		<!--left-fixed -navigation-->
-		<div class=" sidebar" role="navigation">
+		<div class="sidebar" role="navigation">
             <div class="navbar-collapse">
 				<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
 					<ul class="nav" id="side-menu">
-<li>
-							<a href="#"><i class="fa fa-cogs nav_icon"></i>Components <span class="nav-badge">12</span> <span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="grids.html">Grid System</a>
-								</li>
-								<li>
-									<a href="media.html">Media Objects</a>
-								</li>
-							</ul>
-							<!-- /nav-second-level -->
-						</li>
+						<!-- Loop Menu Hire -->
+						<?php
+							$SidebarDynamic = $this->GlobalVar->GetSideBar($user_id);
+							$menu = '';
+							$link = '';
+							foreach ($SidebarDynamic->result() as $dt) {
+								if($dt->menu == $dt->menusubmenu){
+									$menu .= '<li><a href="#"><i class="fa '.$dt->ico.' nav_icon"></i>'.$dt->permissionname.'</a>';
+								}
+								else{
+									$menu .= '
+										<ul class="nav nav-second-level collapse">
+											<li>
+												<a href="'.base_url($dt->link).'"><i class="fa '.$dt->ico.' nav_icon"></i>'.$dt->permissionname.'</a>
+											</li>
+										</ul>
+									';
+								}
+								
+							}
+							echo $menu;
+						?>
+
 					</ul>
 				</nav>
 			</div>
@@ -140,15 +155,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								</div>	
 							</a>
 							<ul class="dropdown-menu drp-mnu">
-								<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
-								<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
-								<li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
+								<!-- <li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
+								<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li>  -->
+								<li> <a href="<?php base_url()?>Auth/Login/Logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
 							</ul>
 						</li>
 					</ul>
 				</div>
-				<div class="clearfix"> </div>				
+				<div class="clearfix"> </div>
 			</div>
-			<div class="clearfix"> </div>	
+			<div class="clearfix"> </div>
 		</div>
-		<!-- //header-ends -->
+		<!-- //header-ends

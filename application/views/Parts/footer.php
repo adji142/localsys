@@ -31,5 +31,13 @@
 	<!--//scrolling js-->
 	<!-- Bootstrap Core JavaScript -->
    <script src="<?php echo base_url();?>Assets/js/bootstrap.js"> </script>
+   <!-- datatable -->
+	<script src="<?php echo base_url();?>Assets/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script src="<?php echo base_url();?>Assets/datatables.net/js/dataTables.buttons.min.js"></script>
+	<script src="<?php echo base_url();?>Assets/datatables.net/js/buttons.flash.min.js"></script>
+	<script src="<?php echo base_url();?>Assets/datatables.net/js/buttons.html5.min.js"></script>
+	<script src="<?php echo base_url();?>Assets/datatables.net/js/buttons.print.min.js"></script>
+
+	<script src="<?php echo base_url();?>Assets/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 </body>
 </html>
