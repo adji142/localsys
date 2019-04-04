@@ -57,6 +57,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="<?php echo base_url();?>Assets/sweetalert2-8.8.0/package/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="<?php echo base_url();?>Assets/sweetalert2-8.8.0/package/dist/sweetalert2.min.css">
 
+<!-- Select 2 -->
+<script src="<?php echo base_url();?>Assets/select2/dist/js/select2.full.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url();?>Assets/select2/dist/css/select2.min.css">
 		<script>
 		$(function () {
 			$('#supported').text('Supported/allowed: ' + !!screenfull.enabled);

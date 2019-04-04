@@ -27,6 +27,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="<?php echo base_url();?>Assets/css/font-awesome.css" rel="stylesheet"> 
 <script src="<?php echo base_url();?>Assets/js/jquery.min.js"> </script>
 <script src="<?php echo base_url();?>Assets/js/bootstrap.min.js"> </script>
+
+<!-- Sweet alert -->
+<script src="<?php echo base_url();?>Assets/sweetalert2-8.8.0/package/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url();?>Assets/sweetalert2-8.8.0/package/dist/sweetalert2.min.css">
+
 </head>
 <body>
 	<div class="login">

@@ -16,19 +16,14 @@ class DataController extends CI_Controller
 	function GetDataAnak()
 	{
         $data = array('success' => false ,'message'=>array(),'data'=>array());
-        
-        $Recordset = $this->DataModels->GetDataAnak();
+        $id = $this->input->post('id');
+        $Recordset = $this->DataModels->FindDataAnak($id);
         if($Recordset->num_rows()>0){
-            $params = $_REQUEST;
-            $totalRecords = $Recordset->num_rows();
-            
             $data['success'] = true;
-            $data['data'] =array(
-                "draw" => 0 ,
-                "recordsTotal" => intval($totalRecords),
-                "recordsFiltered" => intval($recordsFiltered),
-                "data" => $Recordset->result()
-            );
+            $data['data'] = $Recordset->result();
+        }
+        else{
+            $data['message'] = '404-02'; //data anak kosong
         }
         echo json_encode($data);
 	}

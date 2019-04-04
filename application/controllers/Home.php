@@ -11,6 +11,7 @@ class Home extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('GlobalVar');
+		$this->load->model('DataModels');
 	}
 	function Index()
 	{
@@ -18,6 +19,11 @@ class Home extends CI_Controller
 	}
 	function ViewAnak()
 	{
-		$this->load->view('ViewMasterAnak');
+		$data['have_post'] = null;
+		$Recordset = $this->DataModels->GetDataAnak();
+		if($Recordset->num_rows()>0){
+			$data['have_post'] = $Recordset->result();
+		}
+		$this->load->view('ViewMasterAnak',$data);
 	}
 }
