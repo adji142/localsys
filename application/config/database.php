@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'hsp123',//hsp123 lagis3nt0s4
-	'database' => 'localsys',
+	'hostname' => 'koprasiwanitausahamandiri.com',
+	'username' => 'u6018530_root',
+	'password' => 'admin123',//hsp123 lagis3nt0s4
+	'database' => 'u6018530_localsys',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
