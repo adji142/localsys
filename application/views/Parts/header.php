@@ -3,6 +3,8 @@
 <?php
 	$user_id = $this->session->userdata('userid');
 	$KelasUsia_ID = 0;
+	$RecordOnerid = 0;
+	$IO_PPA = '';
 	if($user_id == ''){
 		echo "<script>location.replace('".base_url()."Id');</script>";
 	}
@@ -10,7 +12,18 @@
 	{
 		$KU = $this->GlobalVar->GetAccessKU($user_id);
 		$KelasUsia_ID = $KU->row()->aksesid;
+		$RecordOnerid = $KU->row()->HakAkses;
 	}
+	if($RecordOnerid != 0 || $RecordOnerid != ''){
+		try {
+			$IO = $this->GlobalVar->GetMasterPPA($RecordOnerid);
+			$IO_PPA = $IO->row()->IOPPA;
+		} catch (Exception $e) {
+			// echo "<script>allert('".$e."')</script>";
+			$IO_PPA = $e;
+		}
+	}
+	
 ?>
 
 <!--
@@ -87,7 +100,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               <h1> <a class="navbar-brand" href="<?php echo base_url()?>">Local System</a></h1>         
+               <h1> <a class="navbar-brand" href="<?php echo base_url()?>">Local</a></h1>         
 			   </div>
 			 <div class=" border-bottom">
         	<div class="full-left">

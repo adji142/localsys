@@ -16,4 +16,8 @@ class ModelsExecuteMaster extends CI_Model
         $this->db->where($where);
         return $this->db->update($table,$data);
 	}
+	function ExecInser($data,$table)
+	{
+		return $this->db->insert($table,$data);
+	}
 }

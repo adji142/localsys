@@ -13,7 +13,10 @@ class GlobalVar extends CI_Model
 	}
 	function GetAccessKU($userid)
 	{
-		$data = "select a.* from kelasusiauser a inner join akseskelasusia b on b.id = a.aksesid where a.userid = $userid";
+		$data = "select a.*,c.HakAkses from kelasusiauser a 
+				inner join akseskelasusia b on b.id = a.aksesid 
+				inner join users c on a.userid = c.id
+				where a.userid = $userid";
 		return $this->db->query($data);
 	}
 	function GetSideBar($userid)
@@ -26,5 +29,10 @@ class GlobalVar extends CI_Model
 			where a.id = $userid
 		";
 		return $this->db->query($data);
+	}
+	function GetMasterPPA($value)
+	{
+		$this->db->where('id',$value);
+		return $this->db->get('masterppa');
 	}
 }

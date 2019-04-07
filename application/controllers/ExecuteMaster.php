@@ -36,4 +36,157 @@ class ExecuteMaster extends CI_Controller
         }
         echo json_encode($data);
 	}
+
+    function SaveUpdateKet()
+    {
+        $data = array('success' => false ,'message'=>array());
+        $stat = 0;
+        if ($this->input->post('checked')!== null) $stat = $this->input->post('checked');
+        $ket = $this->input->post('ket');
+        $ID =$this->input->post('id');
+
+        $UpdateData = array(
+            'status' => $stat,
+            'StatusRemark' =>$ket
+        );
+        $UpdateWhere = array(
+            'id'=>$ID
+        );
+
+        $Exec = $this->ModelsExecuteMaster->ExecUpdate($UpdateData,$UpdateWhere,'masteranak');
+        if($Exec){
+            $data['success'] = true;
+        }
+        else{
+            $data['message'] = '500-02';
+        }
+        echo json_encode($data);
+    }
+    function GetanakFilterbySG()
+    {
+        $data = array('success' => false ,'message'=>array(),'data'=>array());
+        $id = $this->input->post('nosg');
+        $Recordset = $this->DataModels->GetDataAnakFilterbySG($id);
+        if($Recordset->num_rows()>0){
+            $data['success'] = true;
+            $data['data'] = $Recordset->result();
+        }
+        else{
+            $data['message'] = '404-02'; //data anak kosong
+        }
+        echo json_encode($data);
+    }
+    function GetSposor()
+    {
+        $data = array('success' => false ,'message'=>array(),'data'=>array());
+        $id = $this->input->post('kd_sponsor');
+        $Recordset = $this->DataModels->GetDataSponsor($id);
+        if($Recordset->num_rows()>0){
+            $data['success'] = true;
+            $data['data'] = $Recordset->result();
+        }
+        else{
+            $data['message'] = '404-02'; //data anak kosong
+        }
+        echo json_encode($data);
+    }
+    function GetMentor()
+    {
+        $data = array('success' => false ,'message'=>array(),'data'=>array());
+        $id = $this->input->post('namaMentor');
+        $Recordset = $this->DataModels->GetDataMentor($id);
+        if($Recordset->num_rows()>0){
+            $data['success'] = true;
+            $data['data'] = $Recordset->result();
+        }
+        else{
+            $data['message'] = '404-02'; //data anak kosong
+        }
+        echo json_encode($data);
+    }
+    function GetOrtu()
+    {
+        $data = array('success' => false ,'message'=>array(),'data'=>array());
+        $id = $this->input->post('NamaAyah');
+        $Recordset = $this->DataModels->GetDataOrtu($id);
+        if($Recordset->num_rows()>0){
+            $data['success'] = true;
+            $data['data'] = $Recordset->result();
+        }
+        else{
+            $data['message'] = '404-02'; //data anak kosong
+        }
+        echo json_encode($data);
+    }
+
+    function Savedataanak_Add()
+    {
+        $data = array('success' => false ,'message'=>array());
+
+        $recordownerid = $ths->input->post('RecordOnerid');
+        $nosg = $this->input->post('nosg_a');
+        $namaanak = $this->input->post('namaanak_a');
+        $Tempatlahir = $this->input->post('TempatLahir_a');
+        $Tanggallahir = $this->input->post('TanggalLahir_a');
+        $Email = $this->input->post('email_a');
+        $tlp = $this->input->post('tlp_a');
+        $alamat_anak = $this->input->post('alamat_anak');
+
+        $data_add = array(
+            'NoSG'          => $nosg,
+            'namaanak'      => $namaanak,
+            'Tempatlahir'   => $Tempatlahir,
+            'Tanggallahir'  => $Tanggallahir,
+            'Email'         => $Email,
+            'NoTlp'         => $tlp,
+            'Alamat'        => $alamat_anak,
+            'status'        => 1,
+            'RecordOwnerID' => $recordownerid
+        );
+
+        $resultset = $this->ModelsExecuteMaster->ExecInser($data_add,'masteranak');
+        if($resultset){
+            $data['success'] = true;
+        }
+        else{
+            $data['message'] = 'E500-02-Add';
+        }
+        echo json_encode($data);
+    }
+    function Savedataanak_Update()
+    {
+        $data = array('success' => false ,'message'=>array());
+
+        $recordownerid = $ths->input->post('RecordOnerid');
+        $nosg = $this->input->post('nosg_a');
+        $namaanak = $this->input->post('namaanak_a');
+        $Tempatlahir = $this->input->post('TempatLahir_a');
+        $Tanggallahir = $this->input->post('TanggalLahir_a');
+        $Email = $this->input->post('email_a');
+        $tlp = $this->input->post('tlp_a');
+        $alamat_anak = $this->input->post('alamat_anak');
+
+        $data_update = array(
+            'namaanak'      => $namaanak,
+            'Tempatlahir'   => $Tempatlahir,
+            'Tanggallahir'  => $Tanggallahir,
+            'Email'         => $Email,
+            'NoTlp'         => $tlp,
+            'Alamat'        => $alamat_anak,
+        );
+        $data_where = array(
+            'NoSG'          => $nosg,
+            'RecordOwnerID' => $recordownerid
+        );
+
+        $resultset = $this->ModelsExecuteMaster->ExecUpdate($data_update,$data_where,'masteranak');
+
+        if($resultset){
+            $data['success'] = true;
+        }
+        else{
+            $data['message'] = 'E500-02-Update';
+        }
+        echo json_encode($data);
+    }
 }

@@ -11,6 +11,7 @@ class DataModels extends CI_Model
 	{
 		parent::__construct();
 	}
+	// select
 	function GetDataAnak()
 	{
         $data = "Select a.id,a.NoSG,a.NamaAnak,a.TanggalLahir,a.NoTlp,b.KelasUsia,c.kodesponsor,
@@ -24,7 +25,7 @@ class DataModels extends CI_Model
 		$data = "Select a.id,a.NoSG,a.NamaAnak,a.TempatLahir,a.TanggalLahir,a.email,a.NoTlp,
                 c.NamaSponsor,c.AsalSponsor,c.StartSponsoring,b.KelasUsia,d.namaMentor,d.noTlp notlpmentor,
                 e.NamaAyah,e.NoTlpAyah,e.PendidikanAyah,e.PekerjaanAyah,
-                e.NamaIbu,e.NoTlpIbu,e.PendidikanIbu,e.PekerjaanIbu from masteranak a
+                e.NamaIbu,e.NoTlpIbu,e.PendidikanIbu,e.PekerjaanIbu,a.Status from masteranak a
                 left join akseskelasusia b on a.KelasUsiaID = b.id
                 left join mastersponsor c on c.id = a.sponsorid
                 left join mastermentor d on d.KelasUsiaID = a.KelasUsiaID
@@ -35,5 +36,29 @@ class DataModels extends CI_Model
 	function GetDataKelasUsia()
 	{
 		return $this->db->get('akseskelasusia');
+	}
+	function GetKeteranganStatus()
+	{
+		return $this->db->get('keteranganstatus');
+	}
+	function GetDataAnakFilterbySG($value)
+	{
+		$this->db->where('NoSG',$value);
+		return $this->db->get('masteranak');
+	}
+	function GetDataSponsor($value)
+	{
+		$this->db->where('kodesponsor',$value);
+		return $this->db->get('mastersponsor');
+	}
+	function GetDataMentor($value)
+	{
+		$this->db->where('namaMentor',$value);
+		return $this->db->get('mastermentor');
+	}
+	function GetDataOrtu($value)
+	{
+		$this->db->where('namaAyah',$value);
+		return $this->db->get('masterorangtua');
 	}
 }
