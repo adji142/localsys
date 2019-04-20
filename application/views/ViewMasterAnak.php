@@ -86,7 +86,8 @@ input:checked + .slider:before {
 					</thead>
 					<!-- <tbody> -->
 						<?php
-							foreach ($have_post as $key) {
+							$Recordset = $this->DataModels->ShowAnak($KelasUsia_ID)->result();
+							foreach ($Recordset as $key) {
 								echo "
 									<td>
 										<div class='btn-group'>
@@ -344,12 +345,12 @@ input:checked + .slider:before {
         		<li><a href="#tab_3a" data-toggle="tab">Informasi Mentor</a></li>
         		<li><a href="#tab_4a" data-toggle="tab">Informasi Orang Tua</a></li>
         	</ul>
-        	<input type="hidden" name="id" id="RecordOnerid" value="<?php echo $RecordOnerid?>" >
-        	<input type="hidden" name="$IO_PPA" id="IOPPA" value="<?php echo $IO_PPA?>" >
+        	<form id="SaveAnak" enctype='application/json'>
+        	<input type="hidden" name="RecordOnerid" id="RecordOnerid" value="<?php echo $RecordOnerid?>" >
+        	<input type="hidden" name="IO_PPA" id="IOPPA" value="<?php echo $IO_PPA?>" >
         	<div class="tab-content">
 				<div class="tab-pane active" id="tab_1a">
 	                <b>Informasi Anak</b>
-	                <form id="SaveAnak" enctype='application/json'>
 	                  <div class="form-group has-feedback">
 			            <label for="">No SG</label>
 			            <input type="text" name = "nosg" id = "nosg_a" class="form-control" maxlength="4">
@@ -384,14 +385,12 @@ input:checked + .slider:before {
 			            <label for="">Alamat Anak</label>
 			            <input type="text" name = "alamat_anak" id = "alamat_anak" class="form-control">
 			          </div>
-			        </form>
-			        <button class="btn btn-general" id="btn_SaveAnak">Simpan</button>
               	</div>
               	<div class="tab-pane" id="tab_2a">
 	                <b>Informasi Sponsor</b>
-	                <form id="SaveSponsor" enctype='application/json'>
 	          	 	  <div class="form-group has-feedback">
 			            <label for="">Kode Sponsor</label>
+			            <input type="hidden" name = "idsponsor" id = "idsponsor" class="form-control">
 			            <input type="text" name = "kdsponsor" id = "kdsponsor_a" class="form-control">
 			          </div>
 
@@ -409,33 +408,29 @@ input:checked + .slider:before {
 			            <label for="">Di Sponsori Sejak</label>
 			            <input type="date" name = "startdate" id = "startdate_a" class="form-control">
 			          </div>      
-			        </form>
-			        <button class="btn btn-general" id="btn_SaveSponsor">Simpan</button>
               	</div>
               	<div class="tab-pane" id="tab_3a">
               		<b>Informasi Mentor</b>
-              		<form id="SaveMentor" enctype='application/json'>
               		  <div class="form-group has-feedback">
 		            	<label for="">Nama Mentor Pengampu</label>
-		            	<input type="text" name = "mentor" id = "mentor_a" class="form-control">
+		            	<input type="hidden" name = "idmentor" id = "idmentor" value="<?php echo $idmentor; ?>" class="form-control">
+		            	<input type="text" name = "mentor" id = "mentor_a" value="<?php echo $namamentor; ?>" class="form-control">
 		          	  </div>
 
 					  <div class="form-group has-feedback">
 		            	<label for="">Kelas Usia</label>
-		            	<input type="text" name = "KU" id = "KU_a" class="form-control">
+		            	<input type="text" name = "KU" id = "KU_a" value="<?php echo $kelasusia; ?>" class="form-control">
 		          	  </div>
 
 		          	  <div class="form-group has-feedback">
 		            	<label for="">Nomer Telepon / HP Mentor</label>
-		            	<input type="text" name = "nomentor" id = "nomentor_a" class="form-control">
+		            	<input type="text" name = "nomentor" id = "nomentor_a" value="<?php echo $notlp; ?>" class="form-control">
 		          	  </div>
-		          	</form>
-		          	<button class="btn btn-general" id="btn_SaveMentor">Simpan</button>
               	</div>
               	<div class="tab-pane" id="tab_4a">
-              		<form id="Saveortu" enctype='application/json'>
 					  <div class="form-group has-feedback">
 			            <label for="">Nama Orang Tua (Ayah)</label>
+			            <input type="hidden" name = "idortu" id = "idortu" class="form-control">
 			            <input type="text" name = "ayah" id = "ayah_a" class="form-control">
 			          </div>
 			          <div class="form-group has-feedback">
@@ -468,7 +463,7 @@ input:checked + .slider:before {
 			            <input type="text" name = "pekerjaanibu" id = "pekerjaanibu_a" class="form-control">
 			          </div>
 			        </form>
-			        <button class="btn btn-general" id="btn_Saveortu">Simpan</button>
+			        <button class="btn btn-general" id="btn_SaveAnak">Simpan</button>
               	</div>
         	</div>
         </div>
@@ -724,6 +719,7 @@ input:checked + .slider:before {
 						$('#tlp_a').val(v.NoTlp);
 						$('#alamat_anak').val('Alamat');
 						$('#nosg_a').attr('disabled',true);
+
 						form_mode = 'edit';
 					});
 				}
@@ -762,59 +758,28 @@ input:checked + .slider:before {
 						$('#sponsor_a').val(v.NamaSponsor);
 						$('#asalsponsor_a').val(v.AsalSponsor);
 						$('#startdate_a').val(v.StartSponsoring);
+						$('#startdate_a').val(v.StartSponsoring);
+						$('#idsponsor').val(v.id);
 						form_mode = 'edit';
 					});
 				}
 				else{
-					form_mode = 'add';
 					Swal.fire({
-					  type: 'success',
+					  type: 'error',
 					  title: 'Peringatan....',
-					  text: 'Data ini akan di catat sebagai data baru !',
+					  text: 'Kode Sponsor tidak ditemukan, silahkan lakukan pengecekan di Master Sponsor !',
 					  // footer: '<a href>Why do I have this issue?</a>'
 					});
 					// $('#nosg_a').val('');
 					$('#sponsor_a').val('');
 					$('#asalsponsor_a').val('');
 					$('#startdate_a').val('');
+					$('#idsponsor').val('');
 				}
 			}
 		});
 	});
 
-	$('#kdsponsor_a').focusout(function () {
-		saved = 0;
-		var kd_sponsor = $('#kdsponsor_a').val();
-		$.ajax({
-			type: "post",
-			url: "<?=base_url()?>ExecuteMaster/GetSposor",
-			data: {kd_sponsor,kd_sponsor},
-			dataType: "json",
-			success: function (response) {
-				if(response.success == true){
-					$.each(response.data,function (k,v) {
-						$('#sponsor_a').val(v.NamaSponsor);
-						$('#asalsponsor_a').val(v.AsalSponsor);
-						$('#startdate_a').val(v.StartSponsoring);
-						form_mode = 'edit';
-					});
-				}
-				else{
-					form_mode = 'add';
-					Swal.fire({
-					  type: 'success',
-					  title: 'Peringatan....',
-					  text: 'Data ini akan di catat sebagai data baru !',
-					  // footer: '<a href>Why do I have this issue?</a>'
-					});
-					// $('#nosg_a').val('');
-					$('#sponsor_a').val('');
-					$('#asalsponsor_a').val('');
-					$('#startdate_a').val('');
-				}
-			}
-		});
-	});
 	$('#mentor_a').focusout(function () {
 			saved = 0;
 			var namaMentor = $('#mentor_a').val();
@@ -829,21 +794,22 @@ input:checked + .slider:before {
 							$('#KU_a').val(v.KelasUsia);
 							$('#mentor_a').val(v.namaMentor);
 							$('#nomentor_a').val(v.notlpmentor);
+							$('#idmentor').val(v.KelasUsiaID);
 							form_mode = 'edit';
 						});
 					}
 					else{
-						form_mode = 'add';
 						Swal.fire({
-						  type: 'success',
+						  type: 'error',
 						  title: 'Peringatan....',
-						  text: 'Data ini akan di catat sebagai data baru !',
+						  text: 'Nama Mentor tidak ditemukan, silahkan lakukan pengecekan di Master Mentor !',
 						  // footer: '<a href>Why do I have this issue?</a>'
 						});
 						// $('#nosg_a').val('');
 						// $('#KU_a').val('');
 						$('#mentor_a').val('');
 						$('#nomentor_a').val('');
+						$('#idmentor').val('');
 					}
 				}
 			});
@@ -863,21 +829,22 @@ input:checked + .slider:before {
 							$('#KU_a').val(v.KelasUsia);
 							$('#mentor_a').val(v.namaMentor);
 							$('#nomentor_a').val(v.notlpmentor);
+							$('#idortu').val(v.id);
 							form_mode = 'edit';
 						});
 					}
 					else{
-						form_mode = 'add';
 						Swal.fire({
-						  type: 'success',
+						  type: 'error',
 						  title: 'Peringatan....',
-						  text: 'Data ini akan di catat sebagai data baru !',
+						  text: 'Data Orang Tua tidak ditemukan, silahkan lakukan pengecekan di Master Orang Tua !',
 						  // footer: '<a href>Why do I have this issue?</a>'
 						});
 						// $('#nosg_a').val('');
 						// $('#KU_a').val('');
 						$('#mentor_a').val('');
 						$('#nomentor_a').val('');
+						$('#idortu').val('');
 					}
 				}
 			});
@@ -894,7 +861,7 @@ input:checked + .slider:before {
         if(form_mode == 'add'){
         	$.ajax({
         		type 	:'post',
-        		url 	:'<?=base_url()?>ExecuteMaster/GetDataOrtu',
+        		url 	:'<?=base_url()?>ExecuteMaster/Savedataanak_Add',
         		data 	:me.serialize(),
         		dataType:'json',
         		success:function (response) {

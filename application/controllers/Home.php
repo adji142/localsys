@@ -20,10 +20,7 @@ class Home extends CI_Controller
 	function ViewAnak()
 	{
 		$data['have_post'] = null;
-		$Recordset = $this->DataModels->GetDataAnak();
-		if($Recordset->num_rows()>0){
-			$data['have_post'] = $Recordset->result();
-		}
-		$this->load->view('ViewMasterAnak',$data);
+		
+		$this->load->view('ViewMasterAnak');
 	}
 }

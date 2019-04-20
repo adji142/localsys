@@ -21,6 +21,16 @@ class DataModels extends CI_Model
                 ";
 		return $this->db->query($data);
 	}
+	function ShowAnak($KelasUsia)
+	{
+        $data = "Select a.id,a.NoSG,a.NamaAnak,a.TanggalLahir,a.NoTlp,b.KelasUsia,c.kodesponsor,
+                c.NamaSponsor,c.AsalSponsor from masteranak a
+                left join akseskelasusia b on a.KelasUsiaID = b.id
+                left join mastersponsor c on c.id = a.sponsorid
+                where b.id = $KelasUsia
+                ";
+		return $this->db->query($data);
+	}
 	function FindDataAnak($idanak){
 		$data = "Select a.id,a.NoSG,a.NamaAnak,a.TempatLahir,a.TanggalLahir,a.email,a.NoTlp,
                 c.NamaSponsor,c.AsalSponsor,c.StartSponsoring,b.KelasUsia,d.namaMentor,d.noTlp notlpmentor,

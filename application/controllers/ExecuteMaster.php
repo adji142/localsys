@@ -123,15 +123,22 @@ class ExecuteMaster extends CI_Controller
     {
         $data = array('success' => false ,'message'=>array());
 
-        $recordownerid = $ths->input->post('RecordOnerid');
-        $nosg = $this->input->post('nosg_a');
-        $namaanak = $this->input->post('namaanak_a');
-        $Tempatlahir = $this->input->post('TempatLahir_a');
-        $Tanggallahir = $this->input->post('TanggalLahir_a');
-        $Email = $this->input->post('email_a');
-        $tlp = $this->input->post('tlp_a');
-        $alamat_anak = $this->input->post('alamat_anak');
 
+        $recordownerid = $ths->input->post('RecordOnerid');
+        $nosg = $this->input->post('nosg');
+        $namaanak = $this->input->post('namaanak');
+        $Tempatlahir = $this->input->post('TempatLahir');
+        $Tanggallahir = $this->input->post('TanggalLahir');
+        $Email = $this->input->post('email');
+        $tlp = $this->input->post('tlp');
+        $alamat_anak = $this->input->post('alamat_anak');
+        $id_sponsor = $this->input->post('idsponsor');
+        $id_mentor = $this->input->post('idmentor');
+        $id_ortu = $this->input->post('idortu');
+
+        $ppa = $this->GlobalVar->GetMasterPPA($recordownerid);
+        $nosg = $ppa->row()->IOPPA + '-'+ $nosg;
+        
         $data_add = array(
             'NoSG'          => $nosg,
             'namaanak'      => $namaanak,
@@ -141,7 +148,10 @@ class ExecuteMaster extends CI_Controller
             'NoTlp'         => $tlp,
             'Alamat'        => $alamat_anak,
             'status'        => 1,
-            'RecordOwnerID' => $recordownerid
+            'RecordOwnerID' => $recordownerid,
+            'sponsorid'     => $id_sponsor,
+            'KeluargaID'    => $id_ortu,
+            
         );
 
         $resultset = $this->ModelsExecuteMaster->ExecInser($data_add,'masteranak');

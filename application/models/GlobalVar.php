@@ -22,11 +22,12 @@ class GlobalVar extends CI_Model
 	function GetSideBar($userid)
 	{
 		$data = "
-			select left(d.menusubmenu,1) menu,d.* from users a
+			select REPLACE(left(d.menusubmenu,2),'.','') menu,d.* from users a
 			inner join userrole b on a.id = b.userid
 			inner join permissionrole c on b.roleid = c.roleid
 			inner join permission d on c.permissionid = d.id
 			where a.id = $userid
+			order by menusubmenu asc
 		";
 		return $this->db->query($data);
 	}
@@ -34,5 +35,13 @@ class GlobalVar extends CI_Model
 	{
 		$this->db->where('id',$value);
 		return $this->db->get('masterppa');
+	}
+	function GetMentor($value)
+	{
+		$data = "select b.kelasusia,a.* From mastermentor a
+			left join akseskelasusia b on a.KelasUsiaID = b.id
+			where b.id = $value
+			";
+		return $this->db->query($data);
 	}
 }

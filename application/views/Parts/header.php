@@ -5,6 +5,11 @@
 	$KelasUsia_ID = 0;
 	$RecordOnerid = 0;
 	$IO_PPA = '';
+	// Mentor
+	$idmentor;
+	$namamentor = '';
+	$kelasusia = '';
+	$notlp = '';
 	if($user_id == ''){
 		echo "<script>location.replace('".base_url()."Id');</script>";
 	}
@@ -18,6 +23,12 @@
 		try {
 			$IO = $this->GlobalVar->GetMasterPPA($RecordOnerid);
 			$IO_PPA = $IO->row()->IOPPA;
+
+			$mentor = $this->GlobalVar->GetMentor($KelasUsia_ID);
+			$idmentor = $mentor->row()->id;
+			$namamentor = $mentor->row()->NamaMentor;
+			$kelasusia = $mentor->row()->kelasusia;
+			$notlp = $mentor->row()->NoTlp;
 		} catch (Exception $e) {
 			// echo "<script>allert('".$e."')</script>";
 			$IO_PPA = $e;
@@ -139,25 +150,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li>
                         <a href="<?php echo base_url()?>" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboards</span> </a>
                     </li>
-											<?php
-												$SidebarDynamic = $this->GlobalVar->GetSideBar($user_id);
-												$menu = '';
-												$link = '';
-												foreach ($SidebarDynamic->result() as $dt) {
-													if($dt->menu == $dt->menusubmenu){
-														$menu .= '<li><a href="'.$dt->link.'" class=" hvr-bounce-to-right"><i class="fa '.$dt->ico.' nav_icon"></i> <span class="nav-label">'.$dt->permissionname.'</span><span class="fa arrow"></span></a>';
-													}
-													else{
-														$menu .= '
-														<ul class="nav nav-second-level">
-															<li><a href="'.base_url($dt->link).'" class=" hvr-bounce-to-right"> <i class="fa '.$dt->ico.' nav_icon"></i>'.$dt->permissionname.'</a></li>
-														</ul>
-														
-														';
-													}
-												}
-												echo $menu;
-											?>
+						<?php
+							$SidebarDynamic = $this->GlobalVar->GetSideBar($user_id);
+							$menu = '';
+							$prev = '';
+							foreach ($SidebarDynamic->result() as $dt) {
+								if($dt->multilevel == 0){
+									$menu .= '<li>
+				                        <a href="'.$dt->link.'" class=" hvr-bounce-to-right"><i class="fa '.$dt->ico.' nav_icon "></i><span class="nav-label">'.$dt->permissionname.'</span> </a>
+				                    </li>';
+								}
+								else{
+									if($dt->menu == $dt->menusubmenu){
+										$menu .= '<li><a href="'.$dt->link.'" class=" hvr-bounce-to-right"><i class="fa '.$dt->ico.' nav_icon"></i> <span class="nav-label">'.$dt->permissionname.'</span><span class="fa arrow"></span></a>';
+									}
+									else{
+										$menu .= '
+										<ul class="nav nav-second-level">
+											<li><a href="'.base_url($dt->link).'" class=" hvr-bounce-to-right"> <i class="fa '.$dt->ico.' nav_icon"></i>'.$dt->permissionname.'</a></li>
+										</ul>
+										';
+										if($dt->menu != $prev){
+											$menu .= '</li>';
+										}
+									}
+								}
+								$prev = $dt->menu;
+							}
+							echo $menu;
+						?>
                 </ul>
             </div>
 			</div>
