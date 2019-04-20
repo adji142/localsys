@@ -84,11 +84,12 @@ input:checked + .slider:before {
 						<th>Email</th>
 						<th>No. Telepon</th>
 					</thead>
-					<!-- <tbody> -->
+					<tbody>
 						<?php
 							$Recordset = $this->DataModels->ShowAnak($KelasUsia_ID)->result();
 							foreach ($Recordset as $key) {
 								echo "
+								<tr>
 									<td>
 										<div class='btn-group'>
 											<button type='button' class='btn btn-danger' disable>Pilih Action
@@ -99,10 +100,11 @@ input:checked + .slider:before {
                     						<span class='sr-only'>Toggle Dropdown</span>
                     						</button>
                     						<ul class='dropdown-menu' role='menu'>
-							                    <li><a href='#' id = 'Detail' name = '".$key->id."'>Lihat Detail</a></li>
-							                    <li><a href='#' id = 'Naik' name = '".$key->id."'>Naik Kelas</a></li>
-							                    <li><a href='#' id = 'status' name = '".$key->id."'>Status Aktif Pasif Anak</a></li>
+							                    <li><a href='#' id='Detail' name = '".$key->id."'>Lihat Detail</a></li>
+							                    <li><a href='#' id='Naik' name = '".$key->id."'>Naik Kelas</a></li>
+							                    <li><a href='#' id='status' name = '".$key->id."'>Status Aktif Pasif Anak</a></li>
 							                </ul>
+							                <a href='#' id='Detail' name = '".$key->id."'>Lihat Detail</a>
 										</div>
 									</td>
 									<td>".$key->NoSG."</td>
@@ -110,10 +112,11 @@ input:checked + .slider:before {
 									<td>".$key->KelasUsia."</td>
 									<td></td>
 									<td>".$key->NoTlp."</td>
+								</tr>
 								";
 							}
 						?>
-					<!-- </tbody> -->
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -413,7 +416,7 @@ input:checked + .slider:before {
               		<b>Informasi Mentor</b>
               		  <div class="form-group has-feedback">
 		            	<label for="">Nama Mentor Pengampu</label>
-		            	<input type="hidden" name = "idmentor" id = "idmentor" value="<?php echo $idmentor; ?>" class="form-control">
+		            	<input type="hidden" name = "idku" id = "idku" value="<?php echo $KelasUsia_ID; ?>" class="form-control">
 		            	<input type="text" name = "mentor" id = "mentor_a" value="<?php echo $namamentor; ?>" class="form-control">
 		          	  </div>
 
@@ -492,6 +495,7 @@ input:checked + .slider:before {
     });
 	// Action button
 	$("#Detail").click(function () {
+		alert('id');
 		// alert($('#RecordOnerid').val())
 		var id = $(this).prop("name");
 		$.ajax({
@@ -543,7 +547,7 @@ input:checked + .slider:before {
 				}
 			}
 		});
-		// $('#ModalDetail').modal('show');
+		$('#ModalDetail').modal('show');
 	});
 	// Naik Kelas
 	$('#Naik').click(function () {
@@ -697,7 +701,7 @@ input:checked + .slider:before {
 	});
 	$('#ModalAddAnak').on('hidden.bs.modal', function () {
 	  location.reload();
-	})
+	});
 // Saving data anak
 	$('#nosg_a').focusout(function () {
 		saved = 0;
@@ -820,7 +824,7 @@ input:checked + .slider:before {
 			var NamaAyah = $('#ayah_a').val();
 			$.ajax({
 				type: "post",
-				url: "<?=base_url()?>ExecuteMaster/GetDataOrtu",
+				url: "<?=base_url()?>ExecuteMaster/GetOrtu",
 				data: {NamaAyah,NamaAyah},
 				dataType: "json",
 				success: function (response) {
@@ -858,7 +862,7 @@ input:checked + .slider:before {
         var me = $(this);
 
         // tambahdata
-        if(form_mode == 'add'){
+        // if(form_mode == 'add'){
         	$.ajax({
         		type 	:'post',
         		url 	:'<?=base_url()?>ExecuteMaster/Savedataanak_Add',
@@ -885,36 +889,36 @@ input:checked + .slider:before {
         			}
         		}
         	});
-        }
-        else if(form_mode == 'edit'){
-        	$.ajax({
-        		type 	:'post',
-        		url 	:'<?=base_url()?>ExecuteMaster/GetDataOrtu',
-        		data 	:me.serialize(),
-        		dataType:'json',
-        		success:function (response) {
-        			if(success.response == true){
-        				Swal.fire({
-						  type: 'success',
-						  title: 'Sukses....',
-						  text: 'Data Berhasil di Rubah !',
-						  // footer: '<a href>Why do I have this issue?</a>'
-						});
-        				saved = 1;
-        			}
-        			else{
-        				Swal.fire({
-						  type: 'error',
-						  title: 'Peringatan....',
-						  text: 'Data gagal di Rubah !, silahkan hubungi administrator',
-						  // footer: '<a href>Why do I have this issue?</a>'
-						});
-						saved = 0;
-        			}
-        		}
-        	});
+        // }
+      //   else if(form_mode == 'edit'){
+      //   	$.ajax({
+      //   		type 	:'post',
+      //   		url 	:'<?=base_url()?>ExecuteMaster/GetDataOrtu',
+      //   		data 	:me.serialize(),
+      //   		dataType:'json',
+      //   		success:function (response) {
+      //   			if(success.response == true){
+      //   				Swal.fire({
+						//   type: 'success',
+						//   title: 'Sukses....',
+						//   text: 'Data Berhasil di Rubah !',
+						//   // footer: '<a href>Why do I have this issue?</a>'
+						// });
+      //   				saved = 1;
+      //   			}
+      //   			else{
+      //   				Swal.fire({
+						//   type: 'error',
+						//   title: 'Peringatan....',
+						//   text: 'Data gagal di Rubah !, silahkan hubungi administrator',
+						//   // footer: '<a href>Why do I have this issue?</a>'
+						// });
+						// saved = 0;
+      //   			}
+      //   		}
+      //   	});
 
-        }
+      //   }
 	});
 
   });

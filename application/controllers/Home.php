@@ -23,4 +23,8 @@ class Home extends CI_Controller
 		
 		$this->load->view('ViewMasterAnak');
 	}
+	function ViewMentor()
+	{
+		$this->load->view('ViewMasterMentor');
+	}
 }

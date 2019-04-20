@@ -31,6 +31,22 @@ class DataModels extends CI_Model
                 ";
 		return $this->db->query($data);
 	}
+	function ShowMentor()
+	{
+        $data = "select a.*,b.KelasUsia from mastermentor a
+        		inner join akseskelasusia b on a.KelasUsiaID = b.id
+                ";
+		return $this->db->query($data);
+	}
+	function FindDataMentor($idmentor)
+	{
+        $data = "select a.*,b.KelasUsia from mastermentor a
+        		inner join akseskelasusia b on a.KelasUsiaID = b.id
+        		where a.id = $idmentor
+                ";
+		return $this->db->query($data);
+	}
+
 	function FindDataAnak($idanak){
 		$data = "Select a.id,a.NoSG,a.NamaAnak,a.TempatLahir,a.TanggalLahir,a.email,a.NoTlp,
                 c.NamaSponsor,c.AsalSponsor,c.StartSponsoring,b.KelasUsia,d.namaMentor,d.noTlp notlpmentor,
@@ -40,6 +56,7 @@ class DataModels extends CI_Model
                 left join mastersponsor c on c.id = a.sponsorid
                 left join mastermentor d on d.KelasUsiaID = a.KelasUsiaID
                 left join masterorangtua e on e.id = a.KeluargaID
+                where a.id = $idanak
                 ";
 		return $this->db->query($data);
 	}

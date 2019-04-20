@@ -124,7 +124,7 @@ class ExecuteMaster extends CI_Controller
         $data = array('success' => false ,'message'=>array());
 
 
-        $recordownerid = $ths->input->post('RecordOnerid');
+        $recordownerid = $this->input->post('RecordOnerid');
         $nosg = $this->input->post('nosg');
         $namaanak = $this->input->post('namaanak');
         $Tempatlahir = $this->input->post('TempatLahir');
@@ -135,9 +135,9 @@ class ExecuteMaster extends CI_Controller
         $id_sponsor = $this->input->post('idsponsor');
         $id_mentor = $this->input->post('idmentor');
         $id_ortu = $this->input->post('idortu');
-
+        $ku = $this->input->post('idku');
         $ppa = $this->GlobalVar->GetMasterPPA($recordownerid);
-        $nosg = $ppa->row()->IOPPA + '-'+ $nosg;
+        $nosg = $ppa->row()->IOPPA . '-'. $nosg;
         
         $data_add = array(
             'NoSG'          => $nosg,
@@ -151,6 +151,7 @@ class ExecuteMaster extends CI_Controller
             'RecordOwnerID' => $recordownerid,
             'sponsorid'     => $id_sponsor,
             'KeluargaID'    => $id_ortu,
+            'KelasUsiaID'   => $ku,
             
         );
 

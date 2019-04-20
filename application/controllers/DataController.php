@@ -27,4 +27,18 @@ class DataController extends CI_Controller
         }
         echo json_encode($data);
 	}
+    function GetDataMentor()
+    {
+        $data = array('success' => false ,'message'=>array(),'data'=>array());
+        $id = $this->input->post('id');
+        $Recordset = $this->DataModels->FindDataAnak($id);
+        if($Recordset->num_rows()>0){
+            $data['success'] = true;
+            $data['data'] = $Recordset->result();
+        }
+        else{
+            $data['message'] = '404-02'; //data anak kosong
+        }
+        echo json_encode($data);
+    }
 }
