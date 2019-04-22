@@ -24,17 +24,20 @@ class DataModels extends CI_Model
 	function ShowAnak($KelasUsia)
 	{
         $data = "Select a.id,a.NoSG,a.NamaAnak,a.TanggalLahir,a.NoTlp,b.KelasUsia,c.kodesponsor,
-                c.NamaSponsor,c.AsalSponsor from masteranak a
+                c.NamaSponsor,c.AsalSponsor,case when a.status = 1 then 'Aktif' else 'Pasif' end status,d.keteranganstatus from masteranak a
                 left join akseskelasusia b on a.KelasUsiaID = b.id
                 left join mastersponsor c on c.id = a.sponsorid
+                left join keteranganstatus d on a.statusremark = d.id
                 where b.id = $KelasUsia
                 ";
 		return $this->db->query($data);
 	}
 	function ShowMentor()
 	{
-        $data = "select a.*,b.KelasUsia from mastermentor a
+        $data = "select a.id,a.namaMentor,a.email,a.noTlp,b.KelasUsia,count(*) jml from mastermentor a
         		inner join akseskelasusia b on a.KelasUsiaID = b.id
+        		inner join masteranak c on b.id = c.KelasUsiaID
+        		group by a.id,a.namaMentor,a.email,a.noTlp,b.KelasUsia
                 ";
 		return $this->db->query($data);
 	}
@@ -56,7 +59,7 @@ class DataModels extends CI_Model
                 left join mastersponsor c on c.id = a.sponsorid
                 left join mastermentor d on d.KelasUsiaID = a.KelasUsiaID
                 left join masterorangtua e on e.id = a.KeluargaID
-                where a.id = $idanak
+                where (right(a.nosg,4) = '$idanak' or a.nosg = '$idanak')
                 ";
 		return $this->db->query($data);
 	}

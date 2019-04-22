@@ -18,13 +18,13 @@ class ExecuteMaster extends CI_Controller
 	{
         $data = array('success' => false ,'message'=>array());
         $KUID = $this->input->post('KelasUsiaID');
-        $ID =$this->input->post('id');
+        $ID =$this->input->post('idnaik');
 
         $UpdateData = array(
             'KelasUsiaID' => $KUID
         );
         $UpdateWhere = array(
-            'id'=>$ID
+            'id' => $ID
         );
 
         $Exec = $this->ModelsExecuteMaster->ExecUpdate($UpdateData,$UpdateWhere,'masteranak');
@@ -41,7 +41,8 @@ class ExecuteMaster extends CI_Controller
     {
         $data = array('success' => false ,'message'=>array());
         $stat = 0;
-        if ($this->input->post('checked')!== null) $stat = $this->input->post('checked');
+        if ($this->input->post('checked')!= null) $stat = $this->input->post('checked');
+        // if ($this->input->post('checked')!= null)
         $ket = $this->input->post('ket');
         $ID =$this->input->post('id');
 
@@ -197,6 +198,37 @@ class ExecuteMaster extends CI_Controller
         }
         else{
             $data['message'] = 'E500-02-Update';
+        }
+        echo json_encode($data);
+    }
+    // Mentor
+    function Savedatamentor_Add()
+    {
+        $data = array('success' => false ,'message'=>array());
+
+
+        $recordownerid = $this->input->post('RecordOnerid');
+        $idmentor = $this->input->post('idmentor');
+        $nmMentor = $this->input->post('nmMentor');
+        $KelasUsiaID = $this->input->post('KelasUsiaID');
+        $emailMentor = $this->input->post('emailMentor');
+        $tlpMentor = $this->input->post('tlpMentor');
+        
+        $data_add = array(
+            'NamaMentor' => $nmMentor,
+            'KelasUsiaID' => $KelasUsiaID,
+            'Email' => $emailMentor,
+            'NoTlp' => $tlpMentor,
+            'Alamat' => '',
+            'RecordOwnerid' => $recordownerid,          
+        );
+
+        $resultset = $this->ModelsExecuteMaster->ExecInser($data_add,'mastermentor');
+        if($resultset){
+            $data['success'] = true;
+        }
+        else{
+            $data['message'] = 'E500-02-Add';
         }
         echo json_encode($data);
     }

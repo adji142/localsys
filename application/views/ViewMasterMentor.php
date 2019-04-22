@@ -75,12 +75,14 @@ input:checked + .slider:before {
 			<div class="blank-page">
 				<!-- Code Hire -->
 				<button type='button' class='btn btn-danger' id="Addmentor" name="">Tambah</button>
+				<button type='button' class='btn btn-warning' id="Addmentor" name="">View Mentor</button>
+				<button type='button' class='btn btn-info' id="Addmentor" name="">Aktif Pasif Mentor</button>
 				<table id="example1" class="table table-bordered table-hover">
 					<thead>
-						<th>#</th>
 						<th>Nama Mentor</th>
 						<th>Kelas Usia</th>
 						<th>No. Telepon</th>
+						<th>Jumlah Anak</th>
 					</thead>
 					<!-- <tbody> -->
 						<?php
@@ -88,25 +90,11 @@ input:checked + .slider:before {
 							foreach ($Recordset as $key) {
 								echo "
 								<tr>
-									<td>
-										<div class='btn-group'>
-											<button type='button' class='btn btn-danger' disable>Pilih Action
-											<span class='fa fa-pencil'></span>
-											</button>
-											<button type='button' class='btn btn-danger dropdown-toggle' data-toggle='dropdown'>
-											<span class='fa fa-filter'></span>
-                    						<span class='sr-only'>Toggle Dropdown</span>
-                    						</button>
-                    						<ul class='dropdown-menu' role='menu'>
-							                    <li><a href='#' id = 'Edit' name = '".$key->id."'>Edit</a></li>
-							                    <li><a href='#' id = 'Delete' name = '".$key->id."'>Delete</a></li>
-							                </ul>
-										</div>
-									</td>
-									<td>".$key->NamaMentor."</td>
+									<td>".$key->namaMentor."</td>
 									<td>".$key->KelasUsia."</td>
-									<td>".$key->NoTlp."</td>
-									</tr>
+									<td>".$key->noTlp."</td>
+									<td>".$key->jml."</td>
+								</tr>
 								";
 							}
 						?>
@@ -176,9 +164,10 @@ input:checked + .slider:before {
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<p><h4>Detail Anak</h4></p>
 				<br>
-				<form id="SaveAnak" enctype='application/json'>
+				<form id="SaveMentor" enctype='application/json'>
 					<div class="form-group has-feedback">
 						<label for="">Nama Mentor :</label>
+						<input type="hidden" name = "RecordOnerid" id = "RecordOnerid" value="<?php echo $RecordOnerid;?>" class="form-control">
 						<input type="hidden" name = "idmentor" id = "idmentor" class="form-control">
 						<input type="text" name = "nmMentor" id = "nmMentor" class="form-control" required="">
 					</div>
@@ -291,70 +280,36 @@ input:checked + .slider:before {
 		$('#ModalsAddmentor').modal('show');
 	});
 	// Validating and action
-	$("#SaveAnak").submit(function (e){
-		$('#btn_SaveAnak').text('Tunggu Sebentar...');
-        $('#btn_SaveAnak').attr('disabled',true);
+	$("#SaveMentor").submit(function (e){
+		$('#btn_SaveMentor').text('Tunggu Sebentar...');
+        $('#btn_SaveMentor').attr('disabled',true);
         e.preventDefault();
         var me = $(this);
-
-        // tambahdata
-        // if(form_mode == 'add'){
-        	$.ajax({
-        		type 	:'post',
-        		url 	:'<?=base_url()?>ExecuteMaster/Savedataanak_Add',
-        		data 	:me.serialize(),
-        		dataType:'json',
-        		success:function (response) {
-        			if(success.response == true){
-        				Swal.fire({
-						  type: 'success',
-						  title: 'Sukses....',
-						  text: 'Data Berhasil di tambahkan ke database anak !',
-						  // footer: '<a href>Why do I have this issue?</a>'
-						});
-        				saved = 1;
-        			}
-        			else{
-        				Swal.fire({
-						  type: 'error',
-						  title: 'Peringatan....',
-						  text: 'Data gagal di tambahkan ke database anak !, silahkan hubungi administrator',
-						  // footer: '<a href>Why do I have this issue?</a>'
-						});
-						saved = 0;
-        			}
-        		}
-        	});
-        // }
-      //   else if(form_mode == 'edit'){
-      //   	$.ajax({
-      //   		type 	:'post',
-      //   		url 	:'<?=base_url()?>ExecuteMaster/GetDataOrtu',
-      //   		data 	:me.serialize(),
-      //   		dataType:'json',
-      //   		success:function (response) {
-      //   			if(success.response == true){
-      //   				Swal.fire({
-						//   type: 'success',
-						//   title: 'Sukses....',
-						//   text: 'Data Berhasil di Rubah !',
-						//   // footer: '<a href>Why do I have this issue?</a>'
-						// });
-      //   				saved = 1;
-      //   			}
-      //   			else{
-      //   				Swal.fire({
-						//   type: 'error',
-						//   title: 'Peringatan....',
-						//   text: 'Data gagal di Rubah !, silahkan hubungi administrator',
-						//   // footer: '<a href>Why do I have this issue?</a>'
-						// });
-						// saved = 0;
-      //   			}
-      //   		}
-      //   	});
-
-      //   }
+    	$.ajax({
+    		type 	:'post',
+    		url 	:'<?=base_url()?>ExecuteMaster/Savedatamentor_Add',
+    		data 	:me.serialize(),
+    		dataType:'json',
+    		success:function (response) {
+    			if(response.success == true){
+    				Swal.fire({
+					  type: 'success',
+					  title: 'Sukses....',
+					  text: 'Data Berhasil di tambahkan ke database anak !',
+					  // footer: '<a href>Why do I have this issue?</a>'
+					});
+    			}
+    			else{
+    				Swal.fire({
+					  type: 'error',
+					  title: 'Peringatan....',
+					  text: 'Data gagal di tambahkan ke database anak !, silahkan hubungi administrator',
+					  // footer: '<a href>Why do I have this issue?</a>'
+					});
+					saved = 0;
+    			}
+    		}
+    	});
 	});
 
   });

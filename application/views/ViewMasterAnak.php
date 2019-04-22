@@ -75,14 +75,18 @@ input:checked + .slider:before {
 			<div class="blank-page">
 				<!-- Code Hire -->
 				<button type='button' class='btn btn-danger' id="AddAnak" name="">Tambah</button>
+				<button type='button' class='btn btn-warning' id="Load_Detail" name="">Lihat Detail Anak</button>
+				<button type='button' class='btn btn-info' id="Naik" name="">Naik Kelas Usia</button>
+				<button type='button' class='btn btn-inverse' id="status" name="">Aktif Pasif Anak</button>
 				<table id="example1" class="table table-bordered table-hover">
 					<thead>
-						<th>#</th>
+						<th>Status</th>
 						<th>No. SG</th>
 						<th>Nama</th>
 						<th>Kelas Usia</th>
 						<th>Email</th>
 						<th>No. Telepon</th>
+						<th>Keterangan</th>
 					</thead>
 					<tbody>
 						<?php
@@ -90,28 +94,13 @@ input:checked + .slider:before {
 							foreach ($Recordset as $key) {
 								echo "
 								<tr>
-									<td>
-										<div class='btn-group'>
-											<button type='button' class='btn btn-danger' disable>Pilih Action
-											<span class='fa fa-pencil'></span>
-											</button>
-											<button type='button' class='btn btn-danger dropdown-toggle' data-toggle='dropdown'>
-											<span class='fa fa-filter'></span>
-                    						<span class='sr-only'>Toggle Dropdown</span>
-                    						</button>
-                    						<ul class='dropdown-menu' role='menu'>
-							                    <li><a href='#' id='Detail' name = '".$key->id."'>Lihat Detail</a></li>
-							                    <li><a href='#' id='Naik' name = '".$key->id."'>Naik Kelas</a></li>
-							                    <li><a href='#' id='status' name = '".$key->id."'>Status Aktif Pasif Anak</a></li>
-							                </ul>
-							                <a href='#' id='Detail' name = '".$key->id."'>Lihat Detail</a>
-										</div>
-									</td>
+									<td>".$key->status."</td>
 									<td>".$key->NoSG."</td>
 									<td>".$key->NamaAnak."</td>
 									<td>".$key->KelasUsia."</td>
 									<td></td>
 									<td>".$key->NoTlp."</td>
+									<td>".$key->keteranganstatus."</td>
 								</tr>
 								";
 							}
@@ -140,12 +129,12 @@ input:checked + .slider:before {
 				<br>
 				<div class="form-group has-feedback">
 					<label for="">Nomer SG :</label>
-					<input type="text" name = "naikSG" id = "naikSG" class="form-control" readonly="">
+					<input type="text" name = "APSG" id = "APSG" class="form-control" maxlength="15">
 				</div>
 
 				<div class="form-group has-feedback">
 					<label for="">Nama Anak :</label>
-					<input type="text" name = "naikNama" id = "naikNama" class="form-control" readonly="">
+					<input type="text" name = "APNama" id = "APNama" class="form-control" readonly="">
 				</div>
 				<form id="GoSaveKet" enctype='application/json'>
 					<input type="hidden" name="id" id="id">
@@ -153,7 +142,7 @@ input:checked + .slider:before {
 						<label for="">Aktif / Pasif :</label>
 						<br>
 						<label class="switch">
-						  <input type="checkbox" class="form-control" id="checked">
+						  <input type="checkbox" class="form-control" id="checked" name="checked">
 						  <span class="slider round"></span>
 						</label>
 					</div>
@@ -185,7 +174,7 @@ input:checked + .slider:before {
 				<br>
 				<div class="form-group has-feedback">
 					<label for="">Nomer SG :</label>
-					<input type="text" name = "naikSG" id = "naikSG" class="form-control" readonly="">
+					<input type="text" name = "naikSG" id = "naikSG" class="form-control" maxlength="15">
 				</div>
 
 				<div class="form-group has-feedback">
@@ -198,7 +187,7 @@ input:checked + .slider:before {
 					<input type="text" name = "kunow" id = "kunow" class="form-control" readonly="">
 				</div>
 				<form id="GoSaveKU" enctype='application/json'>
-					<input type="hidden" name="id" id="id">
+					<input type="hidden" name="idnaik" id="idnaik">
 					<div class="form-group has-feedback">
 						<label for="">Naik Ke Kelas Usia :</label>
 						<select class="form-control select2" style="width: 100%;" id="KelasUsiaID" name="KelasUsiaID">
@@ -236,7 +225,7 @@ input:checked + .slider:before {
 	                <b>Informasi Anak</b>
 	                  <div class="form-group has-feedback">
 			            <label for="">No SG</label>
-			            <input type="text" name = "nosg" id = "nosg" class="form-control" readonly="">
+			            <input type="text" name = "nosg" id = "nosg" class="form-control" maxlength="15">
 			          </div>
 
 			          <div class="form-group has-feedback">
@@ -339,7 +328,7 @@ input:checked + .slider:before {
       <div class="modal-content">                      
         <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <p><h4>Detail Anak</h4></p>
+        <p><h4>Tambah Anak</h4></p>
         <br>
         <div class="nav-tabs-custom">
         	<ul class="nav nav-tabs">
@@ -474,7 +463,7 @@ input:checked + .slider:before {
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div>
-<script src="<?php echo base_url();?>Assets/js/jquery.nicescroll.js"></script>
+<!-- <script src="<?php echo base_url();?>Assets/js/jquery.nicescroll.js"></script> -->
 <script src="<?php echo base_url();?>Assets/js/scripts.js"></script>
 </body>
 </html>
@@ -494,107 +483,15 @@ input:checked + .slider:before {
         }
     });
 	// Action button
-	$("#Detail").click(function () {
-		alert('id');
+	$("#Load_Detail").click(function () {
 		// alert($('#RecordOnerid').val())
-		var id = $(this).prop("name");
-		$.ajax({
-			type: "post",
-			url: "<?=base_url()?>DataController/GetDataAnak",
-			data: {id:id},
-			dataType: "json",
-			success: function (response) {
-				if(response.success==true){
-					$.each(response.data,function (k,v) {
-						$('#nosg').val(v.NoSG);
-						$('#namaanak').val(v.NamaAnak);
-						$('#ttl').val(v.TempatLahir+', '+v.TanggalLahir);
-						$('#email').val(v.email);
-						$('#tlp').val(v.NoTlp);
-						$('#sponsor').val(v.NamaSponsor);
-						$('#asalsponsor').val(v.AsalSponsor);
-						$('#startdate').val(v.StartSponsoring);
-						$('#KU').val(v.KelasUsia);
-						$('#mentor').val(v.namaMentor);
-						$('#nomentor').val(v.notlpmentor);
-						$('#ayah').val(v.NamaAyah);
-						$('#noayah').val(v.NoTlpAyah);
-						$('#pendAyah').val(v.PendidikanAyah);
-						$('#pekerjaanayah').val(v.PekerjaanAyah);
-						$('#ibu').val(v.NamaIbu);
-						$('#noibu').val(v.NoTlpIbu);
-						$('#pendIbu').val(v.PendidikanIbu);
-						$('#pekerjaanibu').val(v.PekerjaanIbu);
-					});
-					$('#ModalDetail').modal('show');
-				}
-				else{
-					if(response.message=="404-02"){
-						Swal.fire({
-						  type: 'error',
-						  title: 'Oops...',
-						  text: 'User tidak di temukan!'
-						});
-					}
-					else{
-						Swal.fire({
-						  type: 'error',
-						  title: 'Oops...',
-						  text: 'Unidentified error!',
-						  footer: '<a href>Why do I have this issue?</a>'
-						});
-					}
-				}
-			}
-		});
 		$('#ModalDetail').modal('show');
 	});
 	// Naik Kelas
 	$('#Naik').click(function () {
-		var id = $(this).prop("name");
-		$.ajax({
-			type: "post",
-			url: "<?=base_url()?>DataController/GetDataAnak",
-			data: {id:id},
-			dataType: "json",
-			success: function (response) {
-				if(response.success==true){
-					$.each(response.data,function (k,v) {
-						$('#id').val(v.id);
-						$('#naikSG').val(v.NoSG);
-						$('#naikNama').val(v.NamaAnak);
-						$('#kunow').val(v.KelasUsia);
-					});
-				}
-			}
-		});
 		$('#ModalNaik').modal('show');
 	});
 	$('#status').click(function() {
-		var id = $(this).prop("name");
-		$.ajax({
-			type: "post",
-			url: "<?=base_url()?>DataController/GetDataAnak",
-			data: {id:id},
-			dataType: "json",
-			success: function (response) {
-				if(response.success==true){
-					$.each(response.data,function (k,v) {
-						$('#id').val(v.id);
-						$('#naikSG').val(v.NoSG);
-						$('#naikNama').val(v.NamaAnak);
-						// $('#kunow').val(v.KelasUsia);
-						if(v.Status == 1){
-							$('#checked').attr('checked','checked');
-						}
-						else{
-							$('#checked').attr('readonly',true);
-							$('#ket').attr('readonly',true);
-						}
-					});
-				}
-			}
-		});
 		$('#ModalAktifPasif').modal('show');
 	});
 	$('#AddAnak').click(function () {
@@ -701,6 +598,174 @@ input:checked + .slider:before {
 	});
 	$('#ModalAddAnak').on('hidden.bs.modal', function () {
 	  location.reload();
+	});
+	$('#ModalDetail').on('hidden.bs.modal', function () {
+	  location.reload();
+	});
+	$('#ModalNaik').on('hidden.bs.modal', function () {
+	  location.reload();
+	});
+	// cek sg
+	$('#nosg').focusout(function () {
+		var id = $('#nosg').val();
+		$.ajax({
+			type: "post",
+			url: "<?=base_url()?>DataController/GetDataAnak",
+			data: {id:id},
+			dataType: "json",
+			success: function (response) {
+				if(response.success==true){
+					$.each(response.data,function (k,v) {
+						$('#nosg').val(v.NoSG);
+						$('#namaanak').val(v.NamaAnak);
+						$('#ttl').val(v.TempatLahir+', '+v.TanggalLahir);
+						$('#email').val(v.email);
+						$('#tlp').val(v.NoTlp);
+						$('#sponsor').val(v.NamaSponsor);
+						$('#asalsponsor').val(v.AsalSponsor);
+						$('#startdate').val(v.StartSponsoring);
+						$('#KU').val(v.KelasUsia);
+						$('#mentor').val(v.namaMentor);
+						$('#nomentor').val(v.notlpmentor);
+						$('#ayah').val(v.NamaAyah);
+						$('#noayah').val(v.NoTlpAyah);
+						$('#pendAyah').val(v.PendidikanAyah);
+						$('#pekerjaanayah').val(v.PekerjaanAyah);
+						$('#ibu').val(v.NamaIbu);
+						$('#noibu').val(v.NoTlpIbu);
+						$('#pendIbu').val(v.PendidikanIbu);
+						$('#pekerjaanibu').val(v.PekerjaanIbu);
+					});
+					$('#ModalDetail').modal('show');
+				}
+				else{
+					if(response.message=="404-02"){
+						Swal.fire({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'User tidak di temukan!'
+						});
+					}
+					else{
+						Swal.fire({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'Unidentified error!',
+						  footer: '<a href>Why do I have this issue?</a>'
+						});
+					}
+					$('#nosg').val('');
+					$('#namaanak').val('');
+					$('#ttl').val('');
+					$('#email').val('');
+					$('#tlp').val('');
+					$('#sponsor').val('');
+					$('#asalsponsor').val('');
+					$('#startdate').val('');
+					$('#KU').val('');
+					$('#mentor').val('');
+					$('#nomentor').val('');
+					$('#ayah').val('');
+					$('#noayah').val('');
+					$('#pendAyah').val('');
+					$('#pekerjaanayah').val('');
+					$('#ibu').val('');
+					$('#noibu').val('');
+					$('#pendIbu').val('');
+					$('#pekerjaanibu').val('');
+				}
+			}
+		});
+	});
+	// cek naik kelas
+	$('#naikSG').focusout(function () {
+		var id = $('#naikSG').val();
+		$.ajax({
+			type: "post",
+			url: "<?=base_url()?>DataController/GetDataAnak",
+			data: {id:id},
+			dataType: "json",
+			success: function (response) {
+				if(response.success==true){
+					$.each(response.data,function (k,v) {
+						$('#idnaik').val(v.id);
+						$('#naikSG').val(v.NoSG);
+						$('#naikNama').val(v.NamaAnak);
+						$('#kunow').val(v.KelasUsia);
+					});
+				}
+				else{
+					if(response.message=="404-02"){
+						Swal.fire({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'User tidak di temukan!'
+						});
+					}
+					else{
+						Swal.fire({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'Unidentified error!',
+						  footer: '<a href>Why do I have this issue?</a>'
+						});
+					}
+					$('#id').val('');
+					$('#naikSG').val('');
+					$('#naikNama').val('');
+					$('#kunow').val('');
+				}
+			}
+		});
+	});
+	// Cek status
+	$('#APSG').focusout(function () {
+		var id = $('#APSG').val();
+		$.ajax({
+			type: "post",
+			url: "<?=base_url()?>DataController/GetDataAnak",
+			data: {id:id},
+			dataType: "json",
+			success: function (response) {
+				if(response.success==true){
+					$.each(response.data,function (k,v) {
+						$('#id').val(v.id);
+						$('#APSG').val(v.NoSG);
+						$('#APNama').val(v.NamaAnak);
+						// $('#kunow').val(v.KelasUsia);
+						if(v.Status == 1){
+							$('#checked').attr('checked','checked');
+						}
+						else{
+							$('#checked').attr('readonly',true);
+							$('#ket').attr('readonly',true);
+						}
+					});
+				}
+				else{
+					if(response.message=="404-02"){
+						Swal.fire({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'User tidak di temukan!'
+						});
+					}
+					else{
+						Swal.fire({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'Unidentified error!',
+						  footer: '<a href>Why do I have this issue?</a>'
+						});
+					}
+					$('#id').val('');
+					$('#APSG').val('');
+					$('#APNama').val('');
+					$('#checked').attr('readonly',true);
+					$('#ket').attr('readonly',true);
+				}
+			}
+		});
 	});
 // Saving data anak
 	$('#nosg_a').focusout(function () {
@@ -869,7 +934,7 @@ input:checked + .slider:before {
         		data 	:me.serialize(),
         		dataType:'json',
         		success:function (response) {
-        			if(success.response == true){
+        			if(response.success == true){
         				Swal.fire({
 						  type: 'success',
 						  title: 'Sukses....',
@@ -924,3 +989,17 @@ input:checked + .slider:before {
   });
 
 </script>
+<!-- <div class='btn-group'>
+	<button type='button' class='btn btn-danger' disable>Pilih Action
+	<span class='fa fa-pencil'></span>
+	</button>
+	<button type='button' class='btn btn-danger dropdown-toggle' data-toggle='dropdown'>
+	<span class='fa fa-filter'></span>
+	<span class='sr-only'>Toggle Dropdown</span>
+	</button>
+	<ul class='dropdown-menu' role='menu'>
+        <li><a href='#' id='Load_Detail' name = '".$key->id."'>Lihat Detail</a></li>
+        <li><a href='#' id='Naik' name = '".$key->id."'>Naik Kelas</a></li>
+        <li><a href='#' id='status' name = '".$key->id."'>Status Aktif Pasif Anak</a></li>
+    </ul>
+</div> -->
