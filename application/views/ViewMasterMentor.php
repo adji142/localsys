@@ -75,7 +75,7 @@ input:checked + .slider:before {
 			<div class="blank-page">
 				<!-- Code Hire -->
 				<button type='button' class='btn btn-danger' id="Addmentor" name="">Tambah</button>
-				<button type='button' class='btn btn-warning' id="Addmentor" name="">View Mentor</button>
+				<button type='button' class='btn btn-warning' id="Viewmentor" name="">View Mentor</button>
 				<button type='button' class='btn btn-info' id="Addmentor" name="">Aktif Pasif Mentor</button>
 				<table id="example1" class="table table-bordered table-hover">
 					<thead>
@@ -273,10 +273,49 @@ input:checked + .slider:before {
 		});
 		// $('#ModalDetail').modal('show');
 	});
+	$('#nmMentor').focusout(function () {
+		var namaMentor = $('#nmMentor').val();
+		
+		$.ajax({
+			type 	: 'post',
+			url 	: '<?=base_url()?>ExecuteMaster/GetMentor',
+			data 	: {namaMentor,namaMentor},
+			dataType: 'json',
+			success:function(response){
+				if(response.success == true){
+					$.each(response.data,function (k,v) {
+						$('#idmentor').val(v.id);
+						$('#nmMentor').val(v.NamaMentor);
+						$('#KelasUsiaID').val(v.KelasUsiaID).change();
+						$('#emailMentor').val(v.Email);
+						$('#tlpMentor').val(v.NoTlp);
+					});
+				}
+				else{
+					Swal.fire({
+					  type: 'error',
+					  title: 'Peringatan....',
+					  text: 'Data Tidak Di temukan',
+					  // footer: '<a href>Why do I have this issue?</a>'
+					});
+					$('#idmentor').val('');
+					$('#nmMentor').val('');
+					$('#KelasUsiaID').val('').change();
+					$('#emailMentor').val('');
+					$('#tlpMentor').val('');
+				}
+			}
+		});
+	});
 	$('#ModalsAddmentor').on('hidden.bs.modal', function () {
 	  location.reload();
 	});
 	$('#Addmentor').click(function () {
+		form_mode = 'add';
+		$('#ModalsAddmentor').modal('show');
+	});
+	$('#Viewmentor').click(function () {
+		form_mode = 'edit';
 		$('#ModalsAddmentor').modal('show');
 	});
 	// Validating and action
@@ -285,31 +324,60 @@ input:checked + .slider:before {
         $('#btn_SaveMentor').attr('disabled',true);
         e.preventDefault();
         var me = $(this);
-    	$.ajax({
-    		type 	:'post',
-    		url 	:'<?=base_url()?>ExecuteMaster/Savedatamentor_Add',
-    		data 	:me.serialize(),
-    		dataType:'json',
-    		success:function (response) {
-    			if(response.success == true){
-    				Swal.fire({
-					  type: 'success',
-					  title: 'Sukses....',
-					  text: 'Data Berhasil di tambahkan ke database anak !',
-					  // footer: '<a href>Why do I have this issue?</a>'
-					});
-    			}
-    			else{
-    				Swal.fire({
-					  type: 'error',
-					  title: 'Peringatan....',
-					  text: 'Data gagal di tambahkan ke database anak !, silahkan hubungi administrator',
-					  // footer: '<a href>Why do I have this issue?</a>'
-					});
-					saved = 0;
-    			}
-    		}
-    	});
+        if (form_mode == 'add'){ 
+	    	$.ajax({
+	    		type 	:'post',
+	    		url 	:'<?=base_url()?>ExecuteMaster/Savedatamentor_Add',
+	    		data 	:me.serialize(),
+	    		dataType:'json',
+	    		success:function (response) {
+	    			if(response.success == true){
+	    				Swal.fire({
+						  type: 'success',
+						  title: 'Sukses....',
+						  text: 'Data Berhasil di tambahkan ke database anak !',
+						  // footer: '<a href>Why do I have this issue?</a>'
+						});
+	    			}
+	    			else{
+	    				Swal.fire({
+						  type: 'error',
+						  title: 'Peringatan....',
+						  text: 'Data gagal di tambahkan ke database anak !, silahkan hubungi administrator',
+						  // footer: '<a href>Why do I have this issue?</a>'
+						});
+						saved = 0;
+	    			}
+	    		}
+	    	});
+	    }
+	    else{
+	    	$.ajax({
+	    		type 	:'post',
+	    		url 	:'<?=base_url()?>ExecuteMaster/Savedatamentor_Add',
+	    		data 	:me.serialize(),
+	    		dataType:'json',
+	    		success:function (response) {
+	    			if(response.success == true){
+	    				Swal.fire({
+						  type: 'success',
+						  title: 'Sukses....',
+						  text: 'Data Berhasil di tambahkan ke database anak !',
+						  // footer: '<a href>Why do I have this issue?</a>'
+						});
+	    			}
+	    			else{
+	    				Swal.fire({
+						  type: 'error',
+						  title: 'Peringatan....',
+						  text: 'Data gagal di tambahkan ke database anak !, silahkan hubungi administrator',
+						  // footer: '<a href>Why do I have this issue?</a>'
+						});
+						saved = 0;
+	    			}
+	    		}
+	    	});
+	    }
 	});
 
   });

@@ -232,4 +232,36 @@ class ExecuteMaster extends CI_Controller
         }
         echo json_encode($data);
     }
+    function Savedatamentor_Edit()
+    {
+        $data = array('success' => false ,'message'=>array());
+
+
+        $recordownerid = $this->input->post('RecordOnerid');
+        $idmentor = $this->input->post('idmentor');
+        $nmMentor = $this->input->post('nmMentor');
+        $KelasUsiaID = $this->input->post('KelasUsiaID');
+        $emailMentor = $this->input->post('emailMentor');
+        $tlpMentor = $this->input->post('tlpMentor');
+        
+        $data_add = array(
+            'NamaMentor' => $nmMentor,
+            'KelasUsiaID' => $KelasUsiaID,
+            'Email' => $emailMentor,
+            'NoTlp' => $tlpMentor,
+            'Alamat' => '',
+            'RecordOwnerid' => $recordownerid,          
+        );
+        $data_where = array(
+            'id' => $idmentor, 
+        );
+        $resultset = $this->ModelsExecuteMaster->ExecUpdate($data_add,$data_where,'mastermentor');
+        if($resultset){
+            $data['success'] = true;
+        }
+        else{
+            $data['message'] = 'E500-02-Add';
+        }
+        echo json_encode($data);
+    }
 }
