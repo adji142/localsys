@@ -34,7 +34,7 @@ class DataModels extends CI_Model
 	}
 	function ShowMentor()
 	{
-        $data = "select a.id,a.namaMentor,a.email,a.noTlp,b.KelasUsia,count(*) jml from mastermentor a
+        $data = "select a.id,a.namaMentor,a.email,a.noTlp,b.KelasUsia,0 jml from mastermentor a
         		inner join akseskelasusia b on a.KelasUsiaID = b.id
         		inner join masteranak c on b.id = c.KelasUsiaID
         		group by a.id,a.namaMentor,a.email,a.noTlp,b.KelasUsia

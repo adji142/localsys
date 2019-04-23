@@ -940,6 +940,8 @@ input:checked + .slider:before {
 						  title: 'Sukses....',
 						  text: 'Data Berhasil di tambahkan ke database anak !',
 						  // footer: '<a href>Why do I have this issue?</a>'
+						}).then((result)=>{
+							location.reload();
 						});
         				saved = 1;
         			}
@@ -951,6 +953,8 @@ input:checked + .slider:before {
 						  // footer: '<a href>Why do I have this issue?</a>'
 						});
 						saved = 0;
+						$('#btn_SaveAnak').text('Simpan');
+        				$('#btn_SaveAnak').attr('disabled',false);
         			}
         		}
         	});

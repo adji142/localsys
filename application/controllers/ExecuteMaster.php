@@ -220,7 +220,8 @@ class ExecuteMaster extends CI_Controller
             'Email' => $emailMentor,
             'NoTlp' => $tlpMentor,
             'Alamat' => '',
-            'RecordOwnerid' => $recordownerid,          
+            'RecordOwnerid' => $recordownerid,
+            'status' => 1,
         );
 
         $resultset = $this->ModelsExecuteMaster->ExecInser($data_add,'mastermentor');
@@ -263,5 +264,14 @@ class ExecuteMaster extends CI_Controller
             $data['message'] = 'E500-02-Add';
         }
         echo json_encode($data);
+    }
+    function aktifpasifMentor(){
+        $data = array('success' => false ,'message'=>array());
+        $stat = 0;
+        if ($this->input->post('checked')!= null) $stat = $this->input->post('checked');
+
+        $idmentor = $this->input->post('idMentorAP');
+        $Keterangan = $this->input->post('keterangan');
+        
     }
 }
